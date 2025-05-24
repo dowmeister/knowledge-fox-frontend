@@ -47,3 +47,12 @@ export interface KnowledgeDocument {
   project: Project;
   knowledgeSource: KnowledgeSource;
 }
+
+export interface ChatMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
+export interface AIAnwer {
+  answer: string;
+}

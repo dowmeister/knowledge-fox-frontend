@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="mb-8">
-      <p class="text-2xl font-bold text-gray-900 mb-2">Projects</p>
-      <p class="text-gray-600">Manage your projects here.</p>
+      <p class="text-2xl font-bold text-gray-900 mb-2">Test the Scraping</p>
+      <p class="text-gray-600">Scrape a speciifc URL and inspect the result</p>
     </div>
     <div>
       <q-input v-model="parameters.url" type="text" label="URL" />

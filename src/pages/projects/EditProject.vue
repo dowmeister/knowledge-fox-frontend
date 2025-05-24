@@ -8,6 +8,7 @@
       <q-tab name="details" icon="info" label="Details" />
       <q-tab name="sources" icon="sensors" label="Sources" />
       <q-tab name="documents" icon="menu_book" label="Documents" />
+      <q-tab name="chat" icon="support_agent" label="Chat" />
     </q-tabs>
     <q-tab-panels v-model="tab">
       <q-tab-panel name="details">
@@ -64,6 +65,9 @@
       <q-tab-panel name="documents">
         <DocumentsSearch :project="project as Project"></DocumentsSearch>
       </q-tab-panel>
+      <q-tab-panel name="chat">
+        <ChatBot></ChatBot>
+      </q-tab-panel>
     </q-tab-panels>
   </div>
 </template>
@@ -75,6 +79,7 @@ import { onMounted, ref, toRaw } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ProjectSources from '../../components/sources/ProjectSources.vue';
 import DocumentsSearch from '../../components/documents/DocumentsSearch.vue';
+import ChatBot from 'src/components/chat/ChatBot.vue';
 
 const route = useRoute();
 const project = ref<Partial<Project>>({});
