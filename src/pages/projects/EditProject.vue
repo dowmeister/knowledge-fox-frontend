@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-7xl">
+  <div class="">
     <div class="mb-8">
       <p class="text-2xl font-bold text-gray-900 mb-2">Edit Project</p>
       <p class="text-gray-600">Modify your project details here.</p>
@@ -12,12 +12,19 @@
     <q-tab-panels v-model="tab">
       <q-tab-panel name="details">
         <div class="mb-4">
-          <q-input placeholder="Enter project name" v-model="project.name" label="Project Name"></q-input>
+          <q-input
+            placeholder="Enter project name"
+            v-model="project.name"
+            label="Project Name"
+          ></q-input>
         </div>
 
         <div class="mb-4">
-
-          <q-input v-model="project.name" label="Project Description" type="textarea"></q-input>
+          <q-input
+            v-model="project.description"
+            label="Project Description"
+            type="textarea"
+          ></q-input>
         </div>
         <div class="mb-4">
           <q-input v-model="project.guildId" label="Guild Id"></q-input>
@@ -28,16 +35,21 @@
         </div>
 
         <div class="mb-4">
-          <q-select v-model="project.aiService" :options="[
-            { label: 'Ollama', value: 'ollama' },
-            { label: 'OpenAI', value: 'openai' },
-            { label: 'Claude', value: 'claude' },
-            { label: 'Gemini', value: 'gemini' },
-            { label: 'DigitalOcean Gen AI', value: 'digitalocean' },
-            { label: 'Cloudflare', value: 'cloudflare' },
-            { label: 'Amazon Bedrock', value: 'amazon' }
-          ]" label="AI Service" emit-value map-options />
-
+          <q-select
+            v-model="project.aiService"
+            :options="[
+              { label: 'Ollama', value: 'ollama' },
+              { label: 'OpenAI', value: 'openai' },
+              { label: 'Claude', value: 'claude' },
+              { label: 'Gemini', value: 'gemini' },
+              { label: 'DigitalOcean Gen AI', value: 'digitalocean' },
+              { label: 'Cloudflare', value: 'cloudflare' },
+              { label: 'Amazon Bedrock', value: 'amazon' },
+            ]"
+            label="AI Service"
+            emit-value
+            map-options
+          />
         </div>
 
         <div class="mb-4">
@@ -50,7 +62,7 @@
         <ProjectSources :project="project as Project"></ProjectSources>
       </q-tab-panel>
       <q-tab-panel name="documents">
-
+        <DocumentsSearch :project="project as Project"></DocumentsSearch>
       </q-tab-panel>
     </q-tab-panels>
   </div>
@@ -61,7 +73,8 @@ import type { Project } from 'src/components/models';
 import { apiService } from 'src/helpers/ApiService';
 import { onMounted, ref, toRaw } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import ProjectSources from './ProjectSources.vue';
+import ProjectSources from '../../components/sources/ProjectSources.vue';
+import DocumentsSearch from '../../components/documents/DocumentsSearch.vue';
 
 const route = useRoute();
 const project = ref<Partial<Project>>({});
@@ -107,9 +120,11 @@ const save = async () => {
         message: response.message || 'Failed to create project',
       });
     }
-  }
-  else {
-    const response = await apiService.put<Project>(`/projects/${project.value._id}`, toRaw(project.value));
+  } else {
+    const response = await apiService.put<Project>(
+      `/projects/${project.value._id}`,
+      toRaw(project.value),
+    );
     if (response.success && response.data) {
       $q.notify({
         type: 'positive',

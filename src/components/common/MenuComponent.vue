@@ -17,7 +17,8 @@ export interface MenuLinkProps {
   caption?: string;
   link?: string;
   icon?: string;
-};
+  external?: boolean;
+}
 
 withDefaults(defineProps<MenuLinkProps>(), {
   caption: '',

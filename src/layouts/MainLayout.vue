@@ -4,9 +4,7 @@
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title>
-          Knowledge Fox
-        </q-toolbar-title>
+        <q-toolbar-title> Knowledge Fox </q-toolbar-title>
 
         <div></div>
       </q-toolbar>
@@ -28,20 +26,30 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import Menu, { type MenuLinkProps } from 'src/components/MenuComponent.vue';
+import Menu, { type MenuLinkProps } from 'src/components/common/MenuComponent.vue';
 
 const linksList: MenuLinkProps[] = [
   {
     title: 'Home',
     icon: 'home',
-    link: '/'
+    link: '/',
   },
   {
     title: 'Projects',
     icon: 'workspaces',
-    link: '/projects'
-  }
-
+    link: '/projects',
+  },
+  {
+    title: 'Scraping',
+    icon: 'search',
+    link: '/scraping',
+  },
+  {
+    title: 'Queues',
+    icon: 'search',
+    external: true,
+    link: 'https://localhost:3001/admin/queues',
+  },
 ];
 
 const leftDrawerOpen = ref(false);

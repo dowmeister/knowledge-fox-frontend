@@ -3,7 +3,6 @@
 
 import { defineConfig } from '#q-app/wrappers';
 import { fileURLToPath } from 'node:url';
-import ts from 'typescript';
 
 export default defineConfig((ctx) => {
   return {
@@ -16,7 +15,7 @@ export default defineConfig((ctx) => {
     boot: ['i18n', 'axios'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#css
-    css: ['tailwind.css', 'app.scss'],
+    css: ['app.scss'],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -122,7 +121,7 @@ export default defineConfig((ctx) => {
       // directives: [],
 
       // Quasar plugins
-      plugins: [],
+      plugins: ['Loading', 'Notify', 'Dialog', 'LocalStorage', 'SessionStorage'],
     },
 
     // animations: 'all', // --- includes all animations
