@@ -2,10 +2,7 @@
   <div>
     <div class="chat-messages">
       <div v-for="(message, index) in messages" :key="index" class="message">
-        <div :class="['message-content', message.role]">
-          <strong>{{ message.role === 'user' ? 'You' : 'Bot' }}:</strong>
-          <p>{{ message.content }}</p>
-        </div>
+        <q-chat-message :name="message.role === 'user' ? 'You' : 'Bot'" :text="[message.content]" />
       </div>
       <q-input v-model="messageBox" @keyup.enter="sendMessage"></q-input>
     </div>
@@ -15,11 +12,18 @@
 import { useQuasar } from 'quasar';
 import { apiService } from 'src/helpers/ApiService';
 import { ref } from 'vue';
-import { type AIAnwer, type ChatMessage } from '../models';
+import { type Project, type AIAnwer, type ChatMessage } from '../models';
 
 const $q = useQuasar();
 const messageBox = ref('');
 const messages = ref<ChatMessage[]>([]);
+
+const props = defineProps({
+  project: {
+    type: Object as () => Project,
+    required: true,
+  },
+});
 
 const sendMessage = async () => {
   if (!messageBox.value.trim()) {
@@ -35,7 +39,7 @@ const sendMessage = async () => {
     content: messageBox.value,
   });
 
-  const response = await apiService.post<AIAnwer>('/chat', {
+  const response = await apiService.post<AIAnwer>(`/chat/${props.project._id}/completions`, {
     message: messageBox.value,
   });
 

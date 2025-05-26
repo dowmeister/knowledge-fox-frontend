@@ -62,11 +62,11 @@
       <q-tab-panel name="sources" v-if="project">
         <ProjectSources :project="project as Project"></ProjectSources>
       </q-tab-panel>
-      <q-tab-panel name="documents">
+      <q-tab-panel name="documents" v-if="project">
         <DocumentsSearch :project="project as Project"></DocumentsSearch>
       </q-tab-panel>
-      <q-tab-panel name="chat">
-        <ChatBot></ChatBot>
+      <q-tab-panel name="chat" v-if="project">
+        <ChatBot :project="project as Project"></ChatBot>
       </q-tab-panel>
     </q-tab-panels>
   </div>
