@@ -13,19 +13,11 @@
     <q-tab-panels v-model="tab">
       <q-tab-panel name="details">
         <div class="mb-4">
-          <q-input
-            placeholder="Enter project name"
-            v-model="project.name"
-            label="Project Name"
-          ></q-input>
+          <q-input placeholder="Enter project name" v-model="project.name" label="Project Name"></q-input>
         </div>
 
         <div class="mb-4">
-          <q-input
-            v-model="project.description"
-            label="Project Description"
-            type="textarea"
-          ></q-input>
+          <q-input v-model="project.description" label="Project Description" type="textarea"></q-input>
         </div>
         <div class="mb-4">
           <q-input v-model="project.guildId" label="Guild Id"></q-input>
@@ -36,21 +28,15 @@
         </div>
 
         <div class="mb-4">
-          <q-select
-            v-model="project.aiService"
-            :options="[
-              { label: 'Ollama', value: 'ollama' },
-              { label: 'OpenAI', value: 'openai' },
-              { label: 'Claude', value: 'claude' },
-              { label: 'Gemini', value: 'gemini' },
-              { label: 'DigitalOcean Gen AI', value: 'digitalocean' },
-              { label: 'Cloudflare', value: 'cloudflare' },
-              { label: 'Amazon Bedrock', value: 'amazon' },
-            ]"
-            label="AI Service"
-            emit-value
-            map-options
-          />
+          <q-select v-model="project.aiService" :options="[
+            { label: 'Ollama', value: 'ollama' },
+            { label: 'OpenAI', value: 'openai' },
+            { label: 'Claude', value: 'claude' },
+            { label: 'Gemini', value: 'gemini' },
+            { label: 'DigitalOcean Gen AI', value: 'digitalocean' },
+            { label: 'Cloudflare', value: 'cloudflare' },
+            { label: 'Amazon Bedrock', value: 'amazon' },
+          ]" label="AI Service" emit-value map-options />
         </div>
 
         <div class="mb-4">
@@ -81,9 +67,11 @@ import ProjectSources from '../../components/sources/ProjectSources.vue';
 import DocumentsSearch from '../../components/documents/DocumentsSearch.vue';
 import ChatBot from 'src/components/chat/ChatBot.vue';
 
+const params = useRoute().params as { tab?: string };
+
 const route = useRoute();
 const project = ref<Partial<Project>>({});
-const tab = ref('details');
+const tab = ref(params.tab || 'details');
 const $q = useQuasar();
 const router = useRouter();
 

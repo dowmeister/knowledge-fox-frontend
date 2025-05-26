@@ -2,9 +2,22 @@
   <div>
     <div class="chat-messages">
       <div v-for="(message, index) in messages" :key="index" class="message">
-        <q-chat-message :name="message.role === 'user' ? 'You' : 'Bot'" :text="[message.content]" />
+        <q-chat-message :name="message.role === 'user' ? 'You' : 'Bot'">
+          <vue-markdown :source="message.content" />
+          <div v-if="message.role === 'assistant' && message.hits && message.hits.length > 0">
+            <div class="hits">
+              <b>Relevant Sources:</b>
+              <ul>
+                <li v-for="(hit, hitIndex) in message.hits" :key="hitIndex">
+                  {{ hit.payload.title }} ({{ hit.payload.url }}) - Score: {{ hit.score.toFixed(2) }} - Chunk Index: {{
+                    hit.payload.chunkIndex }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </q-chat-message>
       </div>
-      <q-input v-model="messageBox" @keyup.enter="sendMessage"></q-input>
+      <q-input v-model="messageBox" @keyup.enter="sendMessage" :loading="loading"></q-input>
     </div>
   </div>
 </template>
@@ -13,6 +26,9 @@ import { useQuasar } from 'quasar';
 import { apiService } from 'src/helpers/ApiService';
 import { ref } from 'vue';
 import { type Project, type AIAnwer, type ChatMessage } from '../models';
+import VueMarkdown from 'vue-markdown-render';
+
+const loading = ref(false);
 
 const $q = useQuasar();
 const messageBox = ref('');
@@ -34,6 +50,8 @@ const sendMessage = async () => {
     return;
   }
 
+  loading.value = true;
+
   messages.value.push({
     role: 'user',
     content: messageBox.value,
@@ -48,6 +66,7 @@ const sendMessage = async () => {
     messages.value.push({
       role: 'assistant',
       content: response.data.answer,
+      hits: response.data.hits || [],
     });
     messageBox.value = ''; // Clear the input box after sending
   } else {
@@ -57,5 +76,6 @@ const sendMessage = async () => {
       message: 'Failed to send message. Please try again.',
     });
   }
+  loading.value = false;
 };
 </script>

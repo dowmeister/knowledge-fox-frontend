@@ -12,6 +12,16 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/projects/EditProject.vue'),
         name: 'projects.create',
       },
+      {
+        path: '/projects/:project_id/sources/create',
+        component: () => import('pages/projects/ProjectSourceEdit.vue'),
+        name: 'sources.create',
+      },
+      {
+        path: '/projects/:project_id/sources/:source_id',
+        component: () => import('pages/projects/ProjectSourceEdit.vue'),
+        name: 'sources.edit',
+      },
       { path: '/projects/:id', component: () => import('pages/projects/EditProject.vue') },
       { path: '/scraping', component: () => import('pages/scraping/ScrapingTest.vue') },
     ],

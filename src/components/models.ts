@@ -26,6 +26,12 @@ export interface KnowledgeSource {
   project: Project | string;
   createdAt?: Date;
   updatedAt?: Date;
+  maxPages?: number;
+  delay?: number;
+  ignoreList?: string;
+  maxRetries?: number;
+  timeout?: number;
+  userAgent?: string;
 }
 
 export interface KnowledgeDocument {
@@ -40,7 +46,7 @@ export interface KnowledgeDocument {
   createdAt?: Date;
   updatedAt?: Date;
   contentLength: number;
-  pageType?: string;
+  siteType?: string;
   summary?: string;
   projectId: string;
   knowledgeSourceId: string;
@@ -51,8 +57,39 @@ export interface KnowledgeDocument {
 export interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
+  hits?: QdrantQueryGroupResultHit[];
 }
 
 export interface AIAnwer {
   answer: string;
+  hits: QdrantQueryGroupResultHit[];
 }
+
+export type QdrantEmbeddingPayload = {
+  url?: string;
+  text: string;
+  title?: string;
+  documentKey: string;
+  source?: QdrantEmbeddingPayloadSource;
+  isSummary?: boolean;
+  chunkIndex?: number;
+  guildId?: string | null;
+  projectId?: string;
+  knowledgeSourceId?: string;
+  knowledgeDocumentId?: string;
+};
+
+type QdrantEmbeddingPayloadSource = 'discord' | 'web-scraper';
+
+export interface QdrantVector {
+  id: string;
+  vector: number[];
+  payload: QdrantEmbeddingPayload;
+}
+
+type QdrantQueryGroupResultHit = {
+  id: string;
+  score: number;
+  version: number;
+  payload: QdrantEmbeddingPayload;
+};

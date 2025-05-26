@@ -4,45 +4,44 @@
       <p class="text-2xl font-bold text-gray-900 mb-2">Documents</p>
       <p class="text-gray-600">Manage your documents here.</p>
     </div>
-    <div class="my-4">
-      <div class="grid grid-cols-2 gap-4">
-        <q-input v-model="parameters.url" type="text" label="URL" clearable />
-        <q-input v-model="parameters.title" type="text" label="Title" clearable />
-        <div class="col-span-2">
-          <q-input v-model="parameters.content" type="textarea" label="Content" clearable></q-input>
-        </div>
-        <div>
-          <q-btn color="primary" icon="search" label="Search" @click="getDocuments" />
+    <div v-if="selectedDocumentId == null">
+      <div class="my-4">
+        <div class="grid grid-cols-2 gap-4">
+          <q-input v-model="parameters.url" type="text" label="URL" clearable />
+          <q-input v-model="parameters.title" type="text" label="Title" clearable />
+          <div class="col-span-2">
+            <q-input v-model="parameters.content" type="textarea" label="Content" clearable></q-input>
+          </div>
+          <div>
+            <q-btn color="primary" icon="search" label="Search" @click="getDocuments" />
+          </div>
         </div>
       </div>
+      <div>
+        <q-table :rows="documents" :columns="columns" row-key="name" :pagination="{ rowsPerPage: 50 }" flat bordered
+          wrap-cells>
+          <template v-slot:body-cell-url="props">
+            <q-td :props="props">
+              <a :href="props.row.url" target="_blank">{{ props.row.url }}</a>
+            </q-td>
+          </template>
+          <template v-slot:body-cell-actions="props">
+            <q-td :props="props">
+              <q-btn color="primary" icon="visibility" flat @click="viewDocument(props.row)" />
+              <q-btn color="primary" icon="refresh" flat @click="refreshDocument(props.row)" />
+            </q-td>
+          </template>
+        </q-table>
+      </div>
     </div>
-    <div>
-      <q-table
-        :rows="documents"
-        :columns="columns"
-        row-key="name"
-        :pagination="{ rowsPerPage: 50 }"
-        flat
-        bordered
-        wrap-cells
-      >
-        <template v-slot:body-cell-url="props">
-          <q-td :props="props">
-            <a :href="props.row.url" target="_blank">{{ props.row.url }}</a>
-          </q-td>
-        </template>
-        <template v-slot:body-cell-actions="props">
-          <q-td :props="props">
-            <q-btn color="primary" icon="visibility" flat @click="viewDocument(props.row)" />
-            <q-btn color="primary" icon="refresh" flat @click="refreshDocument(props.row)" />
-          </q-td>
-        </template>
-      </q-table>
+    <div v-if="selectedDocumentId != null">
+      <q-btn color="primary" flat icon="chevron_left" label="Back to Search" @click="() => selectedDocumentId = null" />
+      <DocumentDetails :project="props.project" :document_id="selectedDocumentId" />
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { Dialog, type QTableColumn, useQuasar } from 'quasar';
+import { type QTableColumn, useQuasar } from 'quasar';
 import { type KnowledgeDocument, type Project } from 'src/components/models';
 import { apiService } from 'src/helpers/ApiService';
 import { onMounted, ref, toRaw } from 'vue';
@@ -56,6 +55,7 @@ const parameters = ref({
 
 const $q = useQuasar();
 const documents = ref<KnowledgeDocument[]>([]);
+const selectedDocumentId = ref<string | null>(null);
 
 const columns = ref<QTableColumn[]>([
   { name: 'url', label: 'URL', align: 'left', field: 'url' },
@@ -92,14 +92,7 @@ onMounted(() => {
 });
 
 const viewDocument = (document: KnowledgeDocument) => {
-  Dialog.create({
-    component: DocumentDetails,
-    componentProps: {
-      document,
-    },
-    persistent: true,
-    title: `Document Details - ${document.title}`,
-  });
+  selectedDocumentId.value = document._id;
 };
 
 const refreshDocument = async (document: KnowledgeDocument) => {
