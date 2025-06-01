@@ -10,11 +10,14 @@
           <p>{{ source.url }}</p>
           <p>{{ source.type }}</p>
           <div class="flex justify-between">
-            <q-btn color="primary" icon="edit" label="Edit"
+            <q-btn size="xs" color="primary" icon="edit" label="Edit"
               :to="{ name: 'sources.edit', params: { project_id: project._id, source_id: source._id } }" />
-            <q-btn color="negative" icon="delete" label="Delete" @click="deleteSource(source._id)" class="me-3" />
-            <q-btn color="primary" icon="plagiarism" label="Scan" class="me-3" @click="launchSourceScan(source._id)" />
-            <q-btn color="negative" icon="clear_all" label="Clear" @click="clearSource(source._id)" />
+            <q-btn size="xs" color="negative" icon="delete" label="Delete" @click="deleteSource(source._id)"
+              class="me-3" />
+            <q-btn size="xs" color="primary" icon="plagiarism" label="Scan" class="me-3"
+              @click="launchSourceScan(source._id)" />
+            <q-btn size="xs" color="negative" icon="clear_all" label="Clear" @click="clearSource(source._id)" />
+            <q-btn size="xs" color="primary" label="Embed" @click="embedSource(source._id)" />
           </div>
         </q-card-section>
       </q-card>
@@ -102,5 +105,24 @@ const clearSource = async (sourceId: string) => {
       message: `Failed to clear source: ${response.message}`,
     });
   }
+};
+
+const embedSource = async (sourceId: string) => {
+  $q.loading.show({
+    message: 'Embedding source, please wait...',
+  });
+  const response = await apiService.post(`/projects/${props.project._id}/sources/${sourceId}/embed`);
+  if (response.success) {
+    $q.notify({
+      type: 'positive',
+      message: 'Source embedded successfully',
+    });
+  } else {
+    $q.notify({
+      type: 'negative',
+      message: `Failed to embed source: ${response.message}`,
+    });
+  }
+  $q.loading.hide();
 };
 </script>

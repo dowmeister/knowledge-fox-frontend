@@ -13,7 +13,7 @@
     <div class="border border-gray-300 p-4 mt-4" v-if="scrapedPage">
       <q-input v-model="scrapedPage.page.title" type="text" label="Title" readonly />
       <q-input v-model="scrapedPage.page.siteType" type="text" label="Site Type" readonly />
-      <q-tabs v-model="tab" align="left" inline-label>
+      <q-tabs v-model="tab" align="left" inline-label class="mt-4">
         <q-tab name="markdown" label="Markdown" />
         <q-tab name="htmlSource" label="HTML Source" />
         <q-tab name="chunks" label="Chunks" />
@@ -31,7 +31,7 @@
         </q-tab-panel>
         <q-tab-panel name="chunks">
           <div v-for="(chunk, index) in scrapedPage.chunks" :key="index" class="mb-2">
-            <p class="text-gray-700">{{ chunk }}</p>
+            <p>{{ chunk }}</p>
             <hr />
           </div>
         </q-tab-panel>

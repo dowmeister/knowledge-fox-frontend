@@ -17,7 +17,7 @@
           </div>
         </q-chat-message>
       </div>
-      <q-input v-model="messageBox" @keyup.enter="sendMessage" :loading="loading"></q-input>
+      <q-input v-model="messageBox" @keyup.enter="sendMessage" :disable="loading" :loading="loading"></q-input>
     </div>
   </div>
 </template>

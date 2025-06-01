@@ -17,14 +17,14 @@
         </div>
 
         <div class="mb-4">
-          <q-input v-model="project.description" label="Project Description" type="textarea"></q-input>
+          <q-input v-model="project.description" label="Project Description" type="textarea" clearable></q-input>
         </div>
         <div class="mb-4">
-          <q-input v-model="project.guildId" label="Guild Id"></q-input>
+          <q-input v-model="project.guildId" label="Guild Id" clearable></q-input>
         </div>
 
         <div class="mb-4">
-          <q-input type="textarea" v-model="project.agentPrompt" label="Agent Prompt"></q-input>
+          <q-input type="textarea" v-model="project.agentPrompt" label="Agent Prompt" clearable></q-input>
         </div>
 
         <div class="mb-4">
@@ -46,13 +46,13 @@
         <q-btn color="primary" icon="check" label="Save" @click="save" />
       </q-tab-panel>
       <q-tab-panel name="sources" v-if="project">
-        <ProjectSources :project="project as Project"></ProjectSources>
+        <ProjectSources :project="project"></ProjectSources>
       </q-tab-panel>
       <q-tab-panel name="documents" v-if="project">
-        <DocumentsSearch :project="project as Project"></DocumentsSearch>
+        <DocumentsSearch :project="project"></DocumentsSearch>
       </q-tab-panel>
       <q-tab-panel name="chat" v-if="project">
-        <ChatBot :project="project as Project"></ChatBot>
+        <ChatBot :project="project"></ChatBot>
       </q-tab-panel>
     </q-tab-panels>
   </div>

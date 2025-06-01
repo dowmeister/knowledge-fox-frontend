@@ -6,10 +6,12 @@
     </div>
     <div v-if="selectedDocumentId == null">
       <div class="my-4">
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-3 gap-4">
           <q-input v-model="parameters.url" type="text" label="URL" clearable />
           <q-input v-model="parameters.title" type="text" label="Title" clearable />
-          <div class="col-span-2">
+          <q-select v-model="parameters.siteType" :options="['standard', 'mediawiki', 'wordpress', 'echo-kb']"
+            label="Site Type" clearable />
+          <div class="col-span-3">
             <q-input v-model="parameters.content" type="textarea" label="Content" clearable></q-input>
           </div>
           <div>
@@ -51,6 +53,7 @@ const parameters = ref({
   url: '',
   title: '',
   content: '',
+  siteType: '',
 });
 
 const $q = useQuasar();

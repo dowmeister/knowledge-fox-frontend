@@ -1,8 +1,14 @@
 <template>
   <div v-if="document">
-    <q-input v-model="document.title" type="text" label="Title" readonly />
-    <q-input v-model="document.url" type="text" label="URL" readonly />
-    <q-input v-model="document.siteType" type="text" label="Page Type" readonly />
+    <div class="mb-4">
+      <q-input v-model="document.title" type="text" label="Title" readonly />
+    </div>
+    <div class="mb-4">
+      <q-input v-model="document.url" type="text" label="URL" readonly />
+    </div>
+    <div class="mb-4">
+      <q-input v-model="document.siteType" type="text" label="Page Type" readonly />
+    </div>
     <div class="border border-gray-600 p-4 mt-4">
       <vue-markdown :source="document.content" />
     </div>

@@ -10,17 +10,13 @@
       </q-btn>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-      <q-card
-        v-for="(project, index) in projects"
-        :key="index"
-        class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow duration-200"
-      >
+      <q-card v-for="(project, index) in projects" :key="index">
         <q-card-section>
-          <h2 class="font-semibold text-gray-800">
+          <h5 class="font-semibold">
             <a :href="`/#/projects/${project._id}`" class="text-blue-600 hover:underline">
               {{ project.name }}
             </a>
-          </h2>
+          </h5>
           <p class="text-gray-600">{{ project.description }}</p>
         </q-card-section>
       </q-card>
